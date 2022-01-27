@@ -64,10 +64,12 @@ def set_states api_abbr
     key = State.all.where(abbr: api_abbr)
     key.pluck(:id).first
 end
+
 def set_states_full api_abbr
     key = State.all.where(abbr: api_abbr)
     key.pluck(:state_name).first
 end
+
 def parks_dataset
     api_data = {key: 'N7C8ItBAYqHG7msTfmr54HHRqWLAm5iZPL03Lo3F'}
     parks = RestClient.get("https://developer.nps.gov/api/v1/parks?limit=500&api_key=#{api_data[:key]}")
