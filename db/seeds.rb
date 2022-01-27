@@ -65,15 +65,18 @@ def set_states api_abbr
     key.pluck(:id).first
 end
 
+def set_states_full api_abbr
+    key = State.all.where(abbr: api_abbr)
+    key.pluck(:state_name).first
+end
+
 def parks_dataset
     api_data = {key: 'N7C8ItBAYqHG7msTfmr54HHRqWLAm5iZPL03Lo3F'}
-
     parks = RestClient.get("https://developer.nps.gov/api/v1/parks?limit=500&api_key=#{api_data[:key]}")
-
     parks_array = JSON.parse(parks)["data"]
     parks_array.each do |p|
         Park.create(park_name: p["fullName"], description: p["description"], fee: p.dig("entranceFees", 0, "cost"), image_url: p.dig("images", 0, "url"), 
-            location: p.dig("addresses", 0), states: p["states"], website: p["url"], state_id: set_states(p["states"][0,2]), list_id: List.third.id)
+            location: p.dig("addresses", 0), states: set_states_full(p["states"][0,2]), website: p["url"], state_id: set_states(p["states"][0,2]), list_id: List.third.id)
     end
 end
 
