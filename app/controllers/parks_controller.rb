@@ -4,6 +4,10 @@ class ParksController < ApplicationController
         Park.all.to_json
     end
 
+    get '/parks/:id' do
+    Park.find(params[:id]).to_json
+    end
+
     patch '/parks/:id' do
         park = Park.find(params[:id])
         park.update(list_id: params[:list_id])

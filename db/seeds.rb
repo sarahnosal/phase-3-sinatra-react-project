@@ -60,6 +60,7 @@ wy = State.create(state_name: 'Wyoming', abbr: 'WY')
 # def natl_parks_secret_key
 #     ENV["NATL_PARKS_API_KEY"]
 # end
+
 def set_states api_abbr
     key = State.all.where(abbr: api_abbr)
     key.pluck(:id).first
